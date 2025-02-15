@@ -17,6 +17,7 @@ public class Block : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _rb.isKinematic = true;
         _rb.gravityScale = 0; //Disabling gravity until dropped
 
         float _screenHalfWidth = Camera.main.orthographicSize * Screen.width / Screen.height;
@@ -53,7 +54,14 @@ public class Block : MonoBehaviour
     void DropBlock()
     {
         _isMoving = false;
+        _rb.isKinematic = false;
         _rb.gravityScale = 1;
+    }
+
+    public void ActivatePhysics()
+    {
+        _rb.isKinematic = true;
+        _rb.gravityScale = 0;
     }
 
     #endregion

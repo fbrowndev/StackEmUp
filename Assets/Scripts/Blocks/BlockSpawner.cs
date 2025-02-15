@@ -8,6 +8,8 @@ public class BlockSpawner : MonoBehaviour
     [SerializeField] private GameObject _blockPrefab;
     [SerializeField] private Transform _spawnPoint;
 
+    private GameObject _currentBlock;
+
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +19,15 @@ public class BlockSpawner : MonoBehaviour
 
     public void SpawnBlock()
     {
-        Instantiate(_blockPrefab, _spawnPoint.position, Quaternion.identity);
+        Vector3 spawnPos = _spawnPoint.position + new Vector3(0, 0.5f, 0);
+        Quaternion spawnRotation = Quaternion.Euler(0, 0, 0);
+
+        _currentBlock = Instantiate(_blockPrefab, spawnPos, spawnRotation);
+
+        Rigidbody2D rb = _currentBlock.GetComponent<Rigidbody2D>();
+        rb.isKinematic = true;
+        rb.gravityScale = 0;
+
+        _currentBlock.GetComponent<Block>().ActivatePhysics();
     }
 }
