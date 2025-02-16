@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     [Header("Game UI")]
     [SerializeField] private GameObject _gameOverUI;
+    [SerializeField] private TMP_Text _scoreText;
+
+    private int score = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -34,4 +38,10 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    public void AddScore(int points)
+    {
+        score += points;
+        _scoreText.text = "Score: " + score;
+    }
 }

@@ -6,9 +6,13 @@ public class BlockSpawner : MonoBehaviour
 {
     [Header("Block Components")]
     [SerializeField] private GameObject _blockPrefab;
-    [SerializeField] private Transform _spawnPoint;
+    [SerializeField] private float _nextBlockHeight = 1.5f;
 
-    private GameObject _currentBlock;
+    private bool _isFirstBlock = true;
+
+    //[SerializeField] private Transform _spawnPoint;
+
+    private GameObject _lastBlock;
 
 
     // Start is called before the first frame update
@@ -19,15 +23,25 @@ public class BlockSpawner : MonoBehaviour
 
     public void SpawnBlock()
     {
-        Vector3 spawnPos = _spawnPoint.position + new Vector3(0, 0.5f, 0);
-        Quaternion spawnRotation = Quaternion.Euler(0, 0, 0);
+        Vector3 spawnPos;
 
-        _currentBlock = Instantiate(_blockPrefab, spawnPos, spawnRotation);
+        if(_isFirstBlock)
+        {
+            spawnPos = new Vector3(0, -.8f, 0);
+        }
+        else
+        {
+            spawnPos = _lastBlock.transform.position + new Vector3(0, _nextBlockHeight, 0);
+        }
 
-        Rigidbody2D rb = _currentBlock.GetComponent<Rigidbody2D>();
-        rb.isKinematic = true;
-        rb.gravityScale = 0;
+        _lastBlock = Instantiate(_blockPrefab, spawnPos, Quaternion.identity);
 
-        _currentBlock.GetComponent<Block>().ActivatePhysics();
+        Rigidbody2D rb = _lastBlock.GetComponent<Rigidbody2D>();
+        if (_isFirstBlock)
+        {
+            rb.isKinematic = true; // Prevent falling automatically
+            rb.gravityScale = 0;
+            _isFirstBlock = false;  // Disable flag after first block is placed
+        }
     }
 }
