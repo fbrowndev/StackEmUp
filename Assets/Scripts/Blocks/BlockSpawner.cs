@@ -13,11 +13,12 @@ public class BlockSpawner : MonoBehaviour
     //[SerializeField] private Transform _spawnPoint;
 
     private GameObject _lastBlock;
-
+    private FollowCam _followCam;
 
     // Start is called before the first frame update
     void Start()
     {
+        _followCam = Camera.main.GetComponent<FollowCam>();
         SpawnBlock();
     }
 
@@ -43,5 +44,7 @@ public class BlockSpawner : MonoBehaviour
             rb.gravityScale = 0;
             _isFirstBlock = false;  // Disable flag after first block is placed
         }
+
+        _followCam.UpdateTargetBlock(_lastBlock.transform);
     }
 }
