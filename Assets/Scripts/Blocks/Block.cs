@@ -18,6 +18,10 @@ public class Block : MonoBehaviour
     private bool _hasLanded = false;
     private float _perfectStackThreshold = 0.1f; //Max offset for perfect stack
 
+    //Enums
+    public enum BlockType { Normal, Sticky, Bouncy, Heavy, Ghost, Explosive }
+    public BlockType blockType = BlockType.Normal;
+
     #endregion
 
     // Start is called before the first frame update
@@ -87,8 +91,9 @@ public class Block : MonoBehaviour
         if(!_hasLanded && (collision.gameObject.CompareTag("Block") || collision.gameObject.CompareTag("Tower_Base")))
         {
             _hasLanded = true;
-            CheckPerfectStack(collision.gameObject);
+            GameManager.Instance.AddScore(10);
 
+            CheckPerfectStack(collision.gameObject);
             FindObjectOfType<BlockSpawner>().SpawnBlock();
 
             //if(!collision.gameObject.CompareTag("Tower_Base"))
@@ -105,7 +110,7 @@ public class Block : MonoBehaviour
         if(xOffset <= _perfectStackThreshold)
         {
             Debug.Log("Perfect Stack!");
-            FindObjectOfType<GameManager>().AddScore(100);
+            GameManager.Instance.AddScore(100);
         }
     }
 
