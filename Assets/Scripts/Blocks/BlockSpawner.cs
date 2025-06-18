@@ -46,5 +46,36 @@ public class BlockSpawner : MonoBehaviour
         }
 
         _followCam.UpdateTargetBlock(_lastBlock.transform);
+
+
+        Block blockScript = _lastBlock.GetComponent<Block>();
+        float roll = Random.value;
+
+        if(roll < 0.7f)
+        {
+            blockScript.blockType = Block.BlockType.Normal;
+        }
+        else if(roll < 0.8f)
+        {
+            blockScript.blockType = Block.BlockType.Sticky;
+        }
+        else if(roll < 0.85f)
+        {
+            blockScript.blockType = Block.BlockType.Bouncy;
+        }
+        else if(roll < 0.9f)
+        {
+            blockScript.blockType = Block.BlockType.Heavy;
+        }
+        else if(roll < 0.95f)
+        {
+            blockScript.blockType = Block.BlockType.Ghost;
+        }
+        else
+        {
+            blockScript.blockType = Block.BlockType.Explosive;
+        }
+
+        blockScript.SetVisualStyle();
     }
 }
